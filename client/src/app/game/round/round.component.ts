@@ -104,7 +104,7 @@ export class RoundComponent implements OnInit, OnDestroy {
         ],
         points: 0,
         wrongs: 0,
-        wrongsX: Array(1)
+        wrongsX: Array(0)
           .fill(0)
           .map((_, i) => i + 1),
       },
@@ -136,14 +136,16 @@ export class RoundComponent implements OnInit, OnDestroy {
   }
 
   onNext() {
+    if(this.roundNumber!= this.rounds.length){
     this.roundNumber++;
     this.actualRound = this.rounds[this.roundNumber];
     this.nextHidden = true;
     this.wrongHidden = false;
+    }
   }
 
   onWrong() {
-    if (this.actualRound.wrongs != 3) {
+    if (this.actualRound.wrongs < 3) {
       this.actualRound.wrongs++;
       this.actualRound.wrongsX.length++;
       if (this.actualRound.wrongs == 3) {
