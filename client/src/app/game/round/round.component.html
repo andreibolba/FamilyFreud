@@ -1,56 +1,46 @@
 <div class="main">
   <div class="question">
-    Name a place you might pick up a date who isn’t interested in a serious relationship
+    {{ actualRound.question }}
   </div>
   <div class="answers">
     <div class="column">
-      <div class="option-answered">
-        <div class="answer">Bar </div>
-        <div class="points"> 31 </div>
-      </div>
-      <div class="option-answered">
-        <div class="answer">Club </div>
-        <div class="points"> 19 </div>
-      </div>
-      <div class="option-answered">
-        <div class="answer">Tinder </div>
-        <div class="points"> 18 </div>
-      </div>
-      <div class="option-answered">
-        <div class="answer">College </div>
-        <div class="points"> 13 </div>
+      <div id="ans" *ngFor="let item of actualRound.answers.slice(0, 4); let i = index">
+        <div class="option-answered" *ngIf="item.answered==true">
+          <div class="answer"> {{ item.content }} </div>
+          <div class="points"> {{ item.points}} </div>
+        </div>
+        <div class="option-unanswered" *ngIf="item.answered!=true" (click)="onAnswer(i)">
+          <div class="number"> {{ i+1 }} </div>
+        </div>
       </div>
     </div>
     <div class="column">
-      <div class="option-answered">
-        <div class="answer">Party </div>
-        <div class="points"> 10 </div>
-      </div>
-      <div class="option-unanswered">
-        <div class="number"> 6 </div>
-      </div>
-      <div class="option-unanswered">
-        <div class="number"> 7 </div>
-      </div>
-      <div class="option-unanswered">
-        <div class="number"> 8 </div>
+      <div id="ans" *ngFor="let item of actualRound.answers.slice(4, actualRound.answers.length); let i = index">
+        <div class="option-answered" *ngIf="item.answered==true">
+          <div class="answer"> {{ item.content }} </div>
+          <div class="points"> {{ item.points}} </div>
+        </div>
+        <div class="option-unanswered" *ngIf="item.answered!=true" (click)="onAnswer(i+4)">
+          <div class="number"> {{ i+5 }} </div>
+        </div>
       </div>
     </div>
   </div>
   <div class="footer">
-    <div class="xis">
+    <div class="xis" *ngIf="actualRound.wrongs!=0">
       Wrong answers:
-      <div class="x"></div>
-      <div class="x"></div>
-      <div class="x"></div>
+      <div class="x" *ngFor="let i of actualRound.wrongsX"></div>
+    </div>
+    <div class="xis" *ngIf="actualRound.wrongs==0">
+      No wrong answers yet!
     </div>
     <div class="total">
       Total points:
-      <div class="total-points">100</div>
+      <div class="total-points">{{ actualRound.points }}</div>
     </div>
     <div class="btns">
-      <button class="btn btn-danger">Wrong</button>
-      <button class="btn btn-primary">Next question</button>
+      <button class="btn btn-danger" [hidden]="wrongHidden" (click)="onWrong()">Wrong</button>
+      <button class="btn btn-primary" [hidden]="nextHidden" (click)="onNext()">Next question</button>
     </div>
   </div>
 </div>
